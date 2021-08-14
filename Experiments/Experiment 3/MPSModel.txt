@@ -1,0 +1,195 @@
+********** MODEL NAME
+Liver-islet MPS
+
+********** MODEL NOTES
+
+% The parameter values are set based on in vivo human experiments.
+% Parameter values from the publication (Topp et al., 2000), scaled to be 
+% expressed in a time scale of hours and concentrations in mM
+
+********** MODEL STATES
+
+%  Amount of glucose molecules in the liver compartment
+d/dt(NG_m_liver) = v1-v2+v3    
+
+% Amount of glucose molecules in the pancreas compartment
+d/dt(NG_m_pancreas) = v4-v5   
+
+% Amount of insulin molecules in the pancreas compartment
+d/dt(NI_m_pancreas) = v6-v7+v8
+
+% Amount of insulin molecules in the liver compartment
+d/dt(NI_m_liver) = v9-v10-v11
+
+% Time
+d/dt(time) = 1
+
+% Accumulated glucose in the hepatocyte medium relative to healthy glucose
+% value
+
+d/dt(Int_G)=max(NG_m_liver/V_m_liver-G_healthy,0)
+
+% Slow glucose signal for disease progression model
+d/dt(G_slow)=(NG_m_pancreas/V_m_pancreas-G_slow)/tao_slow   
+
+% Beta cell mass   
+               
+d/dt(V_islets)=Net_rate*V_islets
+
+%Initial conditions                          
+                                                                                                                                 
+NG_m_liver(0) = (11+delta_G_1)*V_m_liver
+NG_m_pancreas(0) = (11+delta_G_1)*V_m_pancreas
+NI_m_pancreas(0) = delta_I_1
+NI_m_liver(0) = delta_I_1
+time(0) = 0
+Int_G(0) = 0
+G_slow(0) = 5.5    
+V_islets(0) = 0.0000000088  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+********** MODEL PARAMETERS   
+
+V_m_liver = 0.0003                    % (L)
+V_hep = 0.00000340000000000         % (L)
+V_m_pancreas = 0.0003                 % (L)            
+Q = 0.0002964                       % (L/h)
+
+EGP_hep = 176.47                    % (mM/h)
+EG0_hep = 5.294                     % (1/h)
+
+S_i=0.00034                         % (1/(mU/L*h))
+Sigma = 1.47e+06                    % (mU/L/h)
+EC50_I = 61.72                      % (mM^2)
+CL_i_hep = 0                        % (1/h)
+
+V_sample_hep = 15e-06               % (L)
+V_sample_islets = 15e-06            % (L)
+
+% Disease progression parameters
+
+Imax_SI=1                %     Maximum rate insulin resistance          
+EC50_SI=100              %     Michaelis-Menten constant insulin resistance
+d0=0.0025                %     Death rate at zero glucose
+r1=6.3e-04               %     Beta cell mass constant (mM/h) 
+r2=3.24e-05              %     Beta cell mass constant (mM/h)
+kv=1                     %     Scaling factor for beta cell death rate
+tao_slow=500             %     Time constant for averaging the glucose signal
+G_healthy=5.5            %     Average glucose value in health (mM)
+hep=1                    %     Hepatocytes present in the 2-OC (hep=0, only islets)
+islets=1                 %     Islets present in the 2-OC (islets=0, only hep)
+Vm_f_islets=1            %     Maximum decay rate for functionality of islets
+Alpha=60                 %     Time constant for functionality of islets (h)         
+
+% Media change parameters
+
+G0=11           % Glucose concentration in medium change             
+I0=0            % Insulin concentration in medium change
+G_GTT=11        % Glucose concentration in GTT
+I_GTT=0         % Insulin concentration in GTT
+
+delta_G_1=0     % Glucose offset day 1
+delta_G_7=0     % Glucose offset day 7
+delta_G_13=0    % Glucose offset day 13
+
+delta_I_1=0     % Insulin offset day 1
+delta_I_7=0     % Insulin offset day 7
+delta_I_13=0    % Insulin offset day 13
+
+% Parameters 11 mM
+
+delta_G_1_11mM=0     % Glucose offset day 1, 11 mM
+delta_G_7_11mM=0     % Glucose offset day 7, 11 mM
+delta_G_13_11mM=0    % Glucose offset day 13, 11 mM
+
+delta_I_1_11mM=0     % Insulin offset day 1, 11 mM
+delta_I_7_11mM=0     % Insulin offset day 7, 11 mM
+delta_I_13_11mM=0    % Insulin offset day 13, 11 mM
+
+% Parameters 5.5 mM
+
+delta_G_1_5p5mM=0     % Glucose offset day 1, 5.5 mM
+delta_G_7_5p5mM=0     % Glucose offset day 7, 5.5 mM
+delta_G_13_5p5mM=0    % Glucose offset day 13, 5.5 mM
+
+delta_I_1_5p5mM=0     % Insulin offset day 1, 5.5 mM
+delta_I_7_5p5mM=0     % Insulin offset day 7, 5.5 mM
+delta_I_13_5p5mM=0    % Insulin offset day 13, 5.5 mM
+
+% Parameters 2.8 mM
+
+delta_G_1_2p8mM=0     % Glucose offset day 1, 2.8 mM
+delta_G_7_2p8mM=0     % Glucose offset day 7, 2.8 mM
+delta_G_13_2p8mM=0    % Glucose offset day 13, 2.8 mM
+
+delta_I_1_2p8mM=0     % Insulin offset day 1, 2.8 mM
+delta_I_7_2p8mM=0     % Insulin offset day 7, 2.8 mM
+delta_I_13_2p8mM=0    % Insulin offset day 13, 2.8 mM
+
+% Parameters only liver
+
+delta_G_1_liver=0     % Glucose offset day 1, only liver
+
+********** MODEL VARIABLES 
+
+% Measured glucose and insulin concentrations
+
+%G_meas=(NG_m_liver/V_m_liver*V_sample_hep+NG_m_pancreas/V_m_pancreas*V_sample_islets)/(V_sample_hep+V_sample_islets) %1) Measured glucose concentration
+%I_meas=(NI_m_liver/V_m_liver*V_sample_hep+NI_m_pancreas/V_m_pancreas*V_sample_islets)/(V_sample_hep+V_sample_islets) %2) Measured insulin concentration
+
+G_meas=(NG_m_liver/V_m_liver + NG_m_pancreas/V_m_pancreas)/2;
+I_meas=(NI_m_liver/V_m_liver + NI_m_pancreas/V_m_pancreas)/2;
+
+
+% Glucose and insulin concentrations in each organ compartment
+
+G_M_HEP = NG_m_liver/V_m_liver                  % 3) Glucose concentration in the liver compartment
+G_M_ISLETS = NG_m_pancreas/V_m_pancreas         % 4) Glucose concentration in the islets compartment
+I_M_HEP = NI_m_liver/V_m_liver                  % 5) Insulin concentration in the liver compartment
+I_M_ISLETS = NI_m_pancreas/V_m_pancreas         % 6) Insulin concentration in the islets compartment
+
+% Disease progression variables
+
+Int_G_sim = Int_G                                           % 7) Accumulated glucose
+S_i_sim = S_i*(1-(Imax_SI*Int_G)/(EC50_SI+Int_G))                     % 8) Insulin sensitivity
+G_slow_sim = G_slow                                         % 9) Slow glucose
+Growth_rate = r1*G_slow                                     % 10) Growth rate
+Death_rate = r2*G_slow^2                                    % 11) Death rate
+V_islets_sim = V_islets                                     % 12) Islets volume
+time_sim = time                                             % 13) Time (hours)
+F_islets=(1-(Vm_f_islets*time^2)/(Alpha^2+time^2))    % 14) In vitro functionality of the spheroids
+Net_rate=kv*(-d0+r1*G_slow-r2*G_slow^2)                     % 15) Net rate of change of beta cell volume (% per hour) 
+
+% Particle fluxes between compartments
+
+v1 = Q*NG_m_pancreas/V_m_pancreas                                                                       % 16) v1
+v2 = Q*NG_m_liver/V_m_liver                                                                             % 17) v2
+v3 = hep*V_hep*(EGP_hep-EG0_hep*NG_m_liver/V_m_liver-S_i_sim*NG_m_liver/V_m_liver*NI_m_liver/V_m_liver)     % 18) v3
+v4 = Q*NG_m_liver/V_m_liver                                                                             % 19) v4
+v5 = Q*NG_m_pancreas/V_m_pancreas                                                                       % 20) v5
+v6 = Q*NI_m_liver/V_m_liver                                                                             % 21) v6
+v7 = Q*NI_m_pancreas/V_m_pancreas                                                                       % 22) v7
+v8 = islets*V_islets*Sigma*F_islets*(NG_m_pancreas/V_m_pancreas)^2/(EC50_I+(NG_m_pancreas/V_m_pancreas)^2) % 23) v8
+v9 = Q*NI_m_pancreas/V_m_pancreas                                                                       % 24) v9
+v10 = Q*NI_m_liver/V_m_liver                                                                            % 25) v10
+v11 = hep*V_hep*CL_i_hep*NI_m_liver/V_m_liver                                                           % 26) v11
+
+% Insulin independent glucose uptake flux
+U_ii_sim=hep*V_hep*EG0_hep*NG_m_liver/(V_m_liver*V_m_liver);                                              % 27) EG0                                                                     % 27) Insulin independent glucose uptake
+
+% Insulin dependent glucose uptake flux
+U_id_sim=hep*V_hep*S_i_sim*NG_m_liver/V_m_liver*NI_m_liver/(V_m_liver*V_m_liver);                           % 28) U_id                                                                   % 28) Insulin dependent glucose uptake
+
+********** MODEL REACTIONS
+
+********** MODEL EVENTS
+
+day3 = eq(time,48), NG_m_liver, G0*V_m_liver, NI_m_liver, I0*V_m_liver, NG_m_pancreas, G0*V_m_pancreas, NI_m_pancreas, I0*V_m_pancreas
+day5 = eq(time,96), NG_m_liver, G0*V_m_liver, NI_m_liver, I0*V_m_liver, NG_m_pancreas, G0*V_m_pancreas, NI_m_pancreas, I0*V_m_pancreas
+day7 = eq(time,144), NG_m_liver, (G0+delta_G_7)*V_m_liver, NI_m_liver, (I0+delta_I_7)*V_m_liver, NG_m_pancreas, (G0+delta_G_7)*V_m_pancreas, NI_m_pancreas, (I0+delta_I_7)*V_m_pancreas
+day9 = eq(time,192), NG_m_liver, G0*V_m_liver, NI_m_liver, I0*V_m_liver, NG_m_pancreas, G0*V_m_pancreas, NI_m_pancreas, I0*V_m_pancreas
+day11 = eq(time,240), NG_m_liver, G0*V_m_liver, NI_m_liver, I0*V_m_liver, NG_m_pancreas, G0*V_m_pancreas, NI_m_pancreas, I0*V_m_pancreas
+day13 = eq(time,288), NG_m_liver, (G_GTT+delta_G_13)*V_m_liver, NI_m_liver, (I_GTT+delta_I_13)*V_m_liver, NG_m_pancreas, (G_GTT+delta_G_13)*V_m_pancreas, NI_m_pancreas, (I_GTT+delta_I_13)*V_m_pancreas
+
+********** MODEL MATLAB FUNCTIONS
+
+    

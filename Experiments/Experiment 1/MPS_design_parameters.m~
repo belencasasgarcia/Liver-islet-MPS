@@ -1,0 +1,24 @@
+% MPS design parameters
+
+k_scaling_tissue=100000;
+
+% Volumes
+
+% Liver compartment (spheroids)
+
+N_spheroids=40;             %Number of spheroids
+V_hep_spheroid=8.50E-08;    %Volume of hepatocytes per spheroid (L)
+V_hepatocytes=3.40E-06;     %Total volume of hepatocytes (L)
+
+V_serum_hep=300E-06;        %Serum volume in the hepatocyte compartment (L) 
+
+% Pancreas compartment (islets)
+
+N_islets=10;                %Number of pancreatic islets
+V_hep_spheroid=8.50E-08;    %Volume of hepatocytes per spheroid (L)
+V_hepatocytes=3.40E-06;     %Total volume of hepatocytes (L)
+
+V_serum_hep=300E-06;        %Serum volume in the hepatocyte compartment (L) 
+
+%Flow rates
+
