@@ -2,6 +2,9 @@
 
 The files can be used to reproduce the results in the paper "Integrated experimental-computational analysis of a liver-islet micophysiological system for human-centric diabetes research". 
 
+The scripts are implemented in Matlab R2018b and use IQM toolbox, which can be installed from:
+https://iqmtools.intiquan.com/
+
 To reproduce the results in the manuscript:
 
 1. Download the files from each experiment, included in the 'Experiments folder'
