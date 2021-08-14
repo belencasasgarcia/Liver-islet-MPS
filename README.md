@@ -1,4 +1,4 @@
-# MPS-2OC: Computational modelling of the liver-islet MPS.
+# Liver-islet MPS: Computational modelling of the liver-islet MPS.
 
 The files can be used to reproduce the results in the paper "Integrated experimental-computational analysis of a liver-islet micophysiological system for human-centric diabetes research". 
 
