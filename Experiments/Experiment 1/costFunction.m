@@ -35,9 +35,9 @@ Optparam_11mM(parIndex.i_delta_I_1)=Optparam_11mM(parIndex.i_delta_I_1_11mM);
 Optparam_11mM(parIndex.i_delta_I_7)=Optparam_11mM(parIndex.i_delta_I_7_11mM);
 Optparam_11mM(parIndex.i_delta_I_13)=Optparam_11mM(parIndex.i_delta_I_13_11mM);
 
-icOrig_11mM=[(11+Optparam_11mM(parIndex.i_delta_G_1))*Optparam_11mM(parIndex.i_V_m_hep) ...
-    (11+Optparam_11mM(parIndex.i_delta_G_1))*Optparam_11mM(parIndex.i_V_m_islets)...
-   (0+Optparam_11mM(parIndex.i_delta_I_1))*Optparam_11mM(parIndex.i_V_m_hep) (0+Optparam_11mM(parIndex.i_delta_I_1))*Optpar(parIndex.i_V_m_islets) 0 0 ...
+icOrig_11mM=[(11+Optparam_11mM(parIndex.i_delta_G_1))*Optparam_11mM(parIndex.i_V_m_liver) ...
+    (11+Optparam_11mM(parIndex.i_delta_G_1))*Optparam_11mM(parIndex.i_V_m_pancreas)...
+   (0+Optparam_11mM(parIndex.i_delta_I_1))*Optparam_11mM(parIndex.i_V_m_liver) (0+Optparam_11mM(parIndex.i_delta_I_1))*Optpar(parIndex.i_V_m_pancreas) 0 0 ...
    5.5 0.0000000088];
 
 try
@@ -58,7 +58,7 @@ Optpar_liver(parIndex.i_islets)=0;
 
 Optpar_liver(parIndex.i_delta_G_1)=Optpar_liver(parIndex.i_delta_G_1_liver);
 
-icOrig_onlyliver=[(11+Optpar_liver(parIndex.i_delta_G_1))*param(parIndex.i_V_m_hep) (11+Optpar_liver(parIndex.i_delta_G_1))*param(parIndex.i_V_m_islets)...
+icOrig_onlyliver=[(11+Optpar_liver(parIndex.i_delta_G_1))*param(parIndex.i_V_m_liver) (11+Optpar_liver(parIndex.i_delta_G_1))*param(parIndex.i_V_m_pancreas)...
    0 0 0 0 5.5 0.0000000088];
 
 try
@@ -71,60 +71,6 @@ catch simFail
     disp(Optpar);
     disp(simFail)
     return;
-end
-
-%% Simulation for 5.5 mM dose
-
-Optparam_5p5mM=Optpar;
-Optparam_5p5mM(parIndex.i_G0)=5.5;
-Optparam_5p5mM(parIndex.i_I_GTT)=0;
-Optparam_5p5mM(parIndex.i_delta_G_1)=Optparam_5p5mM(parIndex.i_delta_G_1_5p5mM);
-Optparam_5p5mM(parIndex.i_delta_G_7)=Optparam_5p5mM(parIndex.i_delta_G_7_5p5mM);
-Optparam_5p5mM(parIndex.i_delta_G_13)=Optparam_5p5mM(parIndex.i_delta_G_13_5p5mM);
-Optparam_5p5mM(parIndex.i_delta_I_1)=Optparam_5p5mM(parIndex.i_delta_I_1_5p5mM);
-Optparam_5p5mM(parIndex.i_delta_I_7)=Optparam_5p5mM(parIndex.i_delta_I_7_5p5mM);
-Optparam_5p5mM(parIndex.i_delta_I_13)=Optparam_5p5mM(parIndex.i_delta_I_13_5p5mM);
-
-icOrig_5p5=[(5.5+Optparam_5p5mM(parIndex.i_delta_G_1_5p5mM))*Optparam_5p5mM(parIndex.i_V_m_hep)...
-    (5.5+Optparam_5p5mM(parIndex.i_delta_G_1_5p5mM))*Optparam_5p5mM(parIndex.i_V_m_islets) ...
-    (0+Optparam_5p5mM(parIndex.i_delta_I_1_5p5mM))*Optparam_5p5mM(parIndex.i_V_m_hep) ...
-    (0+Optparam_5p5mM(parIndex.i_delta_I_1_5p5mM))*Optparam_5p5mM(parIndex.i_V_m_islets)...
-    0 0 5.5 0.0000000088];
-    
-try
-    simData_islets_liver_5p5 = feval(char(modelName), SIMTIME, icOrig_5p5, Optparam_5p5mM, COSTOPTIONS);
-    
-catch simFail
-    
-disp('Simulation crashed');
-error = inf;
-disp(Optpar);
-disp(simFail)
-
-return;
-end
-
-%% Simulation for 2.8 mM dose
-
-Optparam_2p8mM=Optparam;
-Optparam_2p8mM(parIndex.i_G0)=2.8;
-Optparam_2p8mM(parIndex.i_I_GTT)=0;
-    
-icOrig_2p8=[2.8*Optparam(parIndex.i_V_m_hep) 2.8*Optparam(parIndex.i_V_m_islets) ...
-    0*Optparam(parIndex.i_V_m_hep) 0*Optparam(parIndex.i_V_m_islets)...
-    0 0 5.5 0.0000000088];
-    
-try
-    simData_islets_liver_2p8 = feval(char(modelName), SIMTIME, icOrig_2p8, Optparam_2p8mM, COSTOPTIONS);
-    
-catch simFail
-    
-disp('Simulation crashed');
-error = inf;
-disp(Optpar);
-disp(simFail)
-
-return;
 end
 
 tmpError = 0;
@@ -183,41 +129,6 @@ if n==4% 4: Measured insulin (variable 2)
     tmpError = tmpError + sum(((simData_values(index_int)- EXPDATA.mean{n}).^2)./(EXPDATA.SD{n}).^2);
 
 end
-
-%% Liver and islets, 5.5 mM 
-
-if n==5 || n==6
-    
-    % Values from the co-culture simulation
-    simData_values=simData_islets_liver_5p5.variablevalues(:,n-4);
-    index_int=ismembertol(SIMTIME,EXPDATA.time{n});
-
-    tmpError = tmpError + sum(((simData_values(index_int)- EXPDATA.mean{n}).^2)./(EXPDATA.SD{n}).^2);
-
-% figure()
-% plot(SIMTIME(index_int),simData_values(index_int))
-% hold on
-% plot(EXPDATA.time{n},EXPDATA.mean{n})
-
-end
-
-%% Liver and islets, 2.8 mM 
-
-if n==7 || n==8
-    
-    % Values from the co-culture simulation
-    simData_values=simData_islets_liver_2p8.variablevalues(:,n-6);
-    index_int=ismembertol(SIMTIME,EXPDATA.time{n});
-
-    tmpError = tmpError + sum(((simData_values(index_int)- EXPDATA.mean{n}).^2)./(EXPDATA.SD{n}).^2);
-
-% figure()
-% plot(SIMTIME(index_int),simData_values(index_int))
-% hold on
-% plot(EXPDATA.time{n},EXPDATA.mean{n})
-
-end
-
 end
 
 %% Save parameter values that pass the chi-2 test
