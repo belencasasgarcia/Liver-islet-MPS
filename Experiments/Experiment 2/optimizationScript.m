@@ -92,7 +92,7 @@ OPTIONS.lowbounds=OPTIONS.lowbounds';
 
 % High parameter bounds
 
-OPTIONS.highbounds(1)=1e9;                % U_ii_hep
+OPTIONS.highbounds(1)=1e9;                % EG0
 OPTIONS.highbounds(2)=0.1;                % S_i
 OPTIONS.highbounds(3)=1e9;                % Sigma
 OPTIONS.highbounds(4)=200;                % CL_i_hep
@@ -107,7 +107,7 @@ OPTIONS.highbounds(12)=2;                 % delta_G_1_liver
 
 OPTIONS.highbounds=OPTIONS.highbounds';
 
-startGuess(1)=1;                          % U_ii_hep
+startGuess(1)=1;                          % EG0
 startGuess(2)=0.01;                       % S_i
 startGuess(3)=4.8e6;                      % Sigma
 startGuess(4)=20;                         % CL_i_hep 
@@ -125,7 +125,7 @@ X=startGuess;
  
 OPTIONS.index_Optpar=boolean(sum([parIndex.i_EG0_hep...
     parIndex.i_S_i parIndex.i_Sigma parIndex.i_CL_i_hep...
-    parIndex.i_Vm parIndex.i_km...
+    parIndex.i_Imax_SI parIndex.i_EC50_SI...
     parIndex.i_kv parIndex.i_Alpha...
     parIndex.i_delta_G_1_11mM parIndex.i_delta_G_13_11mM parIndex.i_delta_I_1_11mM...
     parIndex.i_delta_G_1_liver],2)); %Indexes of the parameters to optimize
@@ -140,9 +140,9 @@ Optparam(parIndex.i_G_GTT)=11;
 
 Optparam(OPTIONS.index_Optpar)=startGuess;
 
-icOrig0=[(11+Optparam(parIndex.i_delta_G_1_11mM))*param(parIndex.i_V_m_hep) ...
-    (11+Optparam(parIndex.i_delta_G_1_11mM))*param(parIndex.i_V_m_islets)...
-   (0+Optparam(parIndex.i_delta_I_1_11mM))*param(parIndex.i_V_m_hep) (0+Optparam(parIndex.i_delta_I_1_11mM))*param(parIndex.i_V_m_islets) 0 0 ...
+icOrig0=[(11+Optparam(parIndex.i_delta_G_1_11mM))*param(parIndex.i_V_m_liver) ...
+    (11+Optparam(parIndex.i_delta_G_1_11mM))*param(parIndex.i_V_m_pancreas)...
+   (0+Optparam(parIndex.i_delta_I_1_11mM))*param(parIndex.i_V_m_liver) (0+Optparam(parIndex.i_delta_I_1_11mM))*param(parIndex.i_V_m_pancreas) 0 0 ...
    5.5 0.0000000088];
 
 startCost = costFunction(startGuess);
