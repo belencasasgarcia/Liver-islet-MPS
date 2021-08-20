@@ -7,7 +7,7 @@ close all
 format long
 format compact
 
-adjustSigma=boolean(1);  %Parameter to adjust insulin secretion capacity of beta cells
+adjustSigma=boolean(0);  %Parameter to adjust insulin secretion capacity of beta cells
                          % adjustSigma=0: Initial insulin secretion capacity in the
                          % MPS (Fig. S3)
                          % adjustSigma=1: Corrected insulin secretion capacity (Fig. 8)

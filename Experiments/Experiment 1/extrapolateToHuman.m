@@ -17,15 +17,15 @@ r_time=5/60;
 Q_scaled=(Total_V_m)/r_time;
 
 parHuman=parMPS;
-parHuman(:,parIndex.i_V_m_hep)=V_m_liver_scaled;
-parHuman(:,parIndex.i_V_m_islets)=V_m_pancreas_scaled;
+parHuman(:,parIndex.i_V_m_liver)=V_m_liver_scaled;
+parHuman(:,parIndex.i_V_m_pancreas)=V_m_pancreas_scaled;
 parHuman(:,parIndex.i_V_hep)=V_hep_scaled;
 parHuman(:,parIndex.i_Q)=Q_scaled;
 parHuman(:,parIndex.i_CL_i_hep)=parMPS(:,parIndex.i_CL_i_hep)*2;        % Assuming that the liver stands for approximately 50% of total insulin clearance
 parHuman(:,parIndex.i_delta_G_1_11mM)=0;
 parHuman(:,parIndex.i_delta_I_1_11mM)=0;
 parHuman(:,parIndex.i_S_i)=parMPS(:,parIndex.i_S_i)*2.22;               % Assuming that the liver is responsible for approximately 45% of the total postprandial glucose uptake in humans
-parHuman(:,parIndex.i_U_ii_hep)=parMPS(:,parIndex.i_U_ii_hep)*2.22;
+parHuman(:,parIndex.i_EG0_hep)=parMPS(:,parIndex.i_EG0_hep)*2.22;
 
 if (adjustSigma)
     parHuman(:,parIndex.i_Sigma)=parHuman(:,parIndex.i_Sigma)/6;
