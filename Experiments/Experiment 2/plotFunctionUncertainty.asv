@@ -465,3 +465,22 @@ ylabel('Glucose concentration (mM)','FontSize',20)
 set(gca,'TickDir','out','FontSize',20);
 box off
 
+
+figure
+
+area1=[simTime,fliplr(simTime)];
+area2=[plotData_11mM.SI_max,fliplr(plotData_11mM.SI_min)];
+f=fill(area1,area2,color11mM,'LineStyle','none');
+alpha(f,.2)
+
+hold on
+plot(simTime,plotData_11mM.SI_opt,'Color', color11mM,'Linewidth',2);
+hold off
+
+xlim([0 simTime(end)])
+ylim([0 1])
+xlabel('Time (h)','FontSize',20);
+ylabel('Hepatic insulin resistance ^{L}/_{mIU\cdoth}','FontSize',20)
+set(gca,'TickDir','out','FontSize',20);
+box off
+
