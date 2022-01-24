@@ -8,7 +8,7 @@ for j = 1 : size(param,1) % For each row of the param set.
             (param(j,parIndex.i_G0)+param(j,parIndex.i_delta_G_1))*param(j,parIndex.i_V_m_pancreas)...
             (param(j,parIndex.i_I0)+param(j,parIndex.i_delta_I_1))*param(j,parIndex.i_V_m_liver) ...
             (param(j,parIndex.i_I0)+param(j,parIndex.i_delta_I_1))*param(j,parIndex.i_V_m_pancreas) 0 0 ...
-            5.5 0.0000000088];
+            5.5 0.0000000088 0 0];
 
     % Initial conditions for each media exchange to account for errors in
     % glucose and insulin measurements
@@ -61,6 +61,8 @@ for j = 1 : size(param,1) % For each row of the param set.
         plotData.Gslow(j,time_intervals(i,:))=simData_11mM{i}.variablevalues(:,9);
         plotData.Vislets(j,time_intervals(i,:))=simData_11mM{i}.variablevalues(:,12);  
         plotData.Secretion(j,time_intervals(i,:))=simData_11mM{i}.variablevalues(:,14);  
+        plotData.Uptake_ii(j,time_intervals(i,:))=simData_11mM{i}.variablevalues(:,29);  
+        plotData.Uptake_id(j,time_intervals(i,:))=simData_11mM{i}.variablevalues(:,30);  
     end
     
     

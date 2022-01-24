@@ -36,6 +36,14 @@ d/dt(G_slow)=(NG_m_pancreas/V_m_pancreas-G_slow)/tao_slow
                
 d/dt(V_islets)=Net_rate*V_islets
 
+% Insulin dependent glucose uptake
+
+d/dt(Uptake_id)=U_id_sim
+
+% Insulin independent glucose uptake
+
+d/dt(Uptake_ii)=U_ii_sim
+
 %Initial conditions                          
                                                                                                                                  
 NG_m_liver(0) = (11+delta_G_1)*V_m_liver
@@ -46,6 +54,8 @@ time(0) = 0
 Int_G(0) = 0
 G_slow(0) = 5.5    
 V_islets(0) = 0.0000000088  
+Uptake_id(0) = 0
+Uptake_ii(0) = 0
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 ********** MODEL PARAMETERS   
 
@@ -150,13 +160,13 @@ I_M_ISLETS = NI_m_pancreas/V_m_pancreas         % 6) Insulin concentration in th
 % Disease progression variables
 
 Int_G_sim = Int_G                                           % 7) Accumulated glucose
-S_i_sim = S_i*(1-(Imax_SI*Int_G)/(EC50_SI+Int_G))                     % 8) Insulin sensitivity
+S_i_sim = S_i*(1-(Imax_SI*Int_G)/(EC50_SI+Int_G))           % 8) Insulin sensitivity
 G_slow_sim = G_slow                                         % 9) Slow glucose
 Growth_rate = r1*G_slow                                     % 10) Growth rate
 Death_rate = r2*G_slow^2                                    % 11) Death rate
 V_islets_sim = V_islets                                     % 12) Islets volume
 time_sim = time                                             % 13) Time (hours)
-F_islets=(1-(Vm_f_islets*time^2)/(Alpha^2+time^2))    % 14) In vitro functionality of the spheroids
+F_islets=(1-(Vm_f_islets*time^2)/(Alpha^2+time^2))          % 14) In vitro functionality of the spheroids
 Net_rate=kv*(-d0+r1*G_slow-r2*G_slow^2)                     % 15) Net rate of change of beta cell volume (% per hour) 
 
 % Particle fluxes between compartments
@@ -174,10 +184,16 @@ v10 = Q*NI_m_liver/V_m_liver                                                    
 v11 = hep*V_hep*CL_i_hep*NI_m_liver/V_m_liver                                                           % 26) v11
 
 % Insulin independent glucose uptake flux
-U_ii_sim=hep*V_hep*EG0_hep*NG_m_liver/(V_m_liver*V_m_liver);                                              % 27) EG0                                                                     % 27) Insulin independent glucose uptake
+U_ii_sim=hep*V_hep*EG0_hep*NG_m_liver/(V_m_liver*V_m_liver);                                            % 27) EG0                                                                     % 27) Insulin independent glucose uptake
 
 % Insulin dependent glucose uptake flux
-U_id_sim=hep*V_hep*S_i_sim*NG_m_liver/V_m_liver*NI_m_liver/(V_m_liver*V_m_liver);                           % 28) U_id                                                                   % 28) Insulin dependent glucose uptake
+U_id_sim=hep*V_hep*S_i_sim*NG_m_liver/V_m_liver*NI_m_liver/(V_m_liver*V_m_liver);                       % 28) U_id                                                                   % 28) Insulin dependent glucose uptake
+
+% Insulin independent glucose uptake
+Uptake_ii_sim=Uptake_ii;                                                                                % 29) Uptake_ii
+
+% Insulin dependent glucose uptake                                                                      % 30) Uptake_id
+Uptake_id_sim=Uptake_id;
 
 ********** MODEL REACTIONS
 

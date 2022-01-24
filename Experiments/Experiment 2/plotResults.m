@@ -61,7 +61,7 @@ loadStateIndexes
 
 % Load optimal parameter values
 
-file = ['ParameterValuesExperiment2.dat'];
+file = ['parameterValuesExperiment2.dat'];
 
 tmpHold = load(file);
 

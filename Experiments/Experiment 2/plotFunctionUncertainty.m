@@ -57,6 +57,16 @@ param(:,parIndex.i_delta_I_13)=param(:,parIndex.i_delta_I_13_11mM);
 
 plotData_11mM = simulateCycles(param,parIndex,modelname,time_intervals,COSTOPTIONS,N_exchanges,k_ins_nM);
 
+for j = 1 : size(param,1)
+    SI_perc(j,1:nTime)=plotData_11mM.SI(j,1:nTime)./max(plotData_11mM.SI(j,1:nTime))*100;
+end
+
+% index=SI_perc(:,end)<10;
+% 
+% param=param(index,:);
+
+plotData_11mM = simulateCycles(param,parIndex,modelname,time_intervals,COSTOPTIONS,N_exchanges,k_ins_nM);
+
 % Calculate maximal and minimal values of the simulations to represent uncertainties
 
 plotData_11mM.Gmeasured_max(1:nTime)=max(plotData_11mM.Gmeasured,[],1);
@@ -85,6 +95,11 @@ plotData_11mM.Vislets_max(1:nTime) = max(plotData_11mM.Vislets,[],1);
 plotData_11mM.Vislets_min(1:nTime) = min(plotData_11mM.Vislets,[],1);
 plotData_11mM.Secretion_max(1:nTime) = max(plotData_11mM.Secretion,[],1);
 plotData_11mM.Secretion_min(1:nTime) = min(plotData_11mM.Secretion,[],1);
+plotData_11mM.Uptake_ii_max(1:nTime) = max(plotData_11mM.Uptake_ii,[],1);
+plotData_11mM.Uptake_ii_min(1:nTime) = min(plotData_11mM.Uptake_ii,[],1);
+plotData_11mM.Uptake_id_max(1:nTime) = max(plotData_11mM.Uptake_id,[],1);
+plotData_11mM.Uptake_id_min(1:nTime) = min(plotData_11mM.Uptake_id,[],1);
+
 
 % Simulate for the optimal parameter values
 
@@ -112,6 +127,8 @@ plotData_11mM.SI_opt = plotData_11mM_opt.SI;
 plotData_11mM.Gslow_opt = plotData_11mM_opt.Gslow;
 plotData_11mM.Vislets_opt = plotData_11mM_opt.Vislets;
 plotData_11mM.Secretion_opt = plotData_11mM_opt.Secretion;
+plotData_11mM.Uptake_ii_opt = plotData_11mM_opt.Uptake_ii;
+plotData_11mM.Uptake_id_opt = plotData_11mM_opt.Uptake_id;
 
 % Disease progression variables
 
@@ -132,6 +149,11 @@ alpha(f,.2)
 hold on
 plot(simTime,plotData_11mM.Glucose_int_opt,'Color', color11mM,'Linewidth',2);
 hold off
+
+% for j = 1 : size(param,1)
+%     plot(simTime,plotData_11mM.Glucose_int(j,1:nTime),'Color',color11mM)
+%     hold on
+% end
 
 xlim([0 simTime(end)])
 ylim([0 1200])
@@ -158,6 +180,11 @@ hold on
 plot(simTime,plotData_11mM.SI_opt,'Color', color11mM,'Linewidth',2);
 hold off
 
+% for j = 1 : size(param,1)
+%     plot(simTime,plotData_11mM.SI(j,1:nTime),'Color',color11mM)
+%     hold on
+% end
+
 xlim([0 simTime(end)])
 ylim([0 1])
 xlabel('Time (h)','FontSize',20);
@@ -181,6 +208,11 @@ alpha(f,.2)
 hold on
 plot(simTime,plotData_11mM.Gslow_opt,'Color', color11mM,'Linewidth',2);
 hold off
+
+% for j = 1 : size(param,1)
+%     plot(simTime,plotData_11mM.Gslow(j,1:nTime),'Color',color11mM)
+%     hold on
+% end
 
 xlim([0 simTime(end)])
 ylim([5.5 7])
@@ -207,6 +239,11 @@ hold on
 plot(simTime,plotData_11mM.Vislets_opt*1e9,'Color', color11mM,'Linewidth',2);
 hold off
 
+% for j = 1 : size(param,1)
+%     plot(simTime,plotData_11mM.Vislets(j,1:nTime)*1e9,'Color',color11mM)
+%     hold on
+% end
+
 xlim([0 simTime(end)])
 ylim([0 20])
 xticks([0 48 96 144 192 240 288 336])
@@ -232,6 +269,11 @@ hold on
 plot(simTime,plotData_11mM.Secretion_opt*100,'Color', color11mM,'Linewidth',2);
 hold off
 
+% for j = 1 : size(param,1)
+%     plot(simTime,plotData_11mM.Secretion(j,1:nTime)*100,'Color',color11mM)
+%     hold on
+% end
+
 xlim([0 simTime(end)])
 ylim([0 100])
 xticks([0 48 96 144 192 240 288 336])
@@ -252,10 +294,16 @@ figure2.Position = [10 10 1500 1000];
 subplot(2,3,1)
 
 hold on
+
 area1=[simTime,fliplr(simTime)];
 area2=[plotData_11mM.Gliver_max,fliplr(plotData_11mM.Gliver_min)];
 f=fill(area1,area2,color_onlyliver,'LineStyle','none');
 alpha(f,.4)
+
+% for j = 1 : size(param,1)
+%     plot(simTime,plotData_11mM.Gliver(j,1:nTime),'Color',color_onlyliver)
+%     hold on
+% end
 
 hold on
 errorbar(EXPDATA.time{4}, EXPDATA.mean{4}, EXPDATA.SD{4},'Color', color_onlyliver,...
@@ -276,10 +324,16 @@ box off
 subplot(2,3,2)
 
 hold on
+
 area1=[simTime,fliplr(simTime)];
 area2=[plotData_11mM.Gislets_max,fliplr(plotData_11mM.Gislets_min)];
 f=fill(area1,area2,color_onlyislets,'LineStyle','none');
 alpha(f,.4)
+
+% for j = 1 : size(param,1)
+%     plot(simTime,plotData_11mM.Gislets(j,1:nTime),'Color',color_onlyislets)
+%     hold on
+% end
 
 hold on
 errorbar(EXPDATA.time{5}, EXPDATA.mean{5}, EXPDATA.SD{5},'Color', color_onlyislets,...
@@ -306,6 +360,11 @@ area2=[plotData_11mM.Gmeasured_max,fliplr(plotData_11mM.Gmeasured_min)];
 f=fill(area1,area2,color11mM,'LineStyle','none');
 alpha(f,.4)
 
+% for j = 1 : size(param,1)
+%     plot(simTime,plotData_11mM.Gmeasured(j,1:nTime),'Color',color11mM)
+%     hold on
+% end
+
 hold on
 errorbar(EXPDATA.time{1}, EXPDATA.mean{1}, EXPDATA.SD{1},'Color', color11mM,...
     'LineStyle', 'n', 'Marker',marker,'MarkerFaceColor',color11mM, 'MarkerSize',8)
@@ -327,10 +386,16 @@ box off
 subplot(2,3,4)
 
 hold on
+
 area1=[simTime,fliplr(simTime)];
 area2=[plotData_11mM.Iliver_max,fliplr(plotData_11mM.Iliver_min)];
 f=fill(area1,area2,color_onlyliver,'LineStyle','none');
 alpha(f,.4)
+
+% for j = 1 : size(param,1)
+%     plot(simTime,plotData_11mM.Iliver(j,1:nTime),'Color',color_onlyliver)
+%     hold on
+% end
 
 hold on
 errorbar(EXPDATA.time{6}, EXPDATA.mean{6}*k_ins_nM, EXPDATA.SD{6}*k_ins_nM,'Color', color_onlyliver,...
@@ -350,10 +415,16 @@ box off
 subplot(2,3,5)
 
 hold on
+
 area1=[simTime,fliplr(simTime)];
 area2=[plotData_11mM.Iislets_max,fliplr(plotData_11mM.Iislets_min)];
 f=fill(area1,area2,color_onlyislets,'LineStyle','none');
 alpha(f,.4)
+
+% for j = 1 : size(param,1)
+%     plot(simTime,plotData_11mM.Iislets(j,1:nTime),'Color',color_onlyislets)
+%     hold on
+% end
 
 hold on
 errorbar(EXPDATA.time{7}, EXPDATA.mean{7}*k_ins_nM, EXPDATA.SD{7}*k_ins_nM,'Color', color_onlyislets,...
@@ -378,6 +449,12 @@ area1=[simTime,fliplr(simTime)];
 area2=[plotData_11mM.Imeasured_max,fliplr(plotData_11mM.Imeasured_min)];
 f=fill(area1,area2,color11mM,'LineStyle','none');
 alpha(f,.2)
+
+% for j = 1 : size(param,1)
+%     plot(simTime,plotData_11mM.Imeasured(j,1:nTime),'Color',color11mM)
+%     hold on
+% end
+
 hold on
 errorbar(EXPDATA.time{2}, EXPDATA.mean{2}*k_ins_nM, EXPDATA.SD{2}*k_ins_nM,'Color', color11mM,...
     'LineStyle', 'n', 'Marker',marker,'MarkerFaceColor',color11mM, 'MarkerSize',8)
@@ -452,6 +529,13 @@ alpha(f,.2)
 hold on
 errorbar(EXPDATA.time{3}, EXPDATA.mean{3}, EXPDATA.SD{3},'Color', color_onlyliver,...
     'LineStyle', 'n', 'Marker',marker,'MarkerFaceColor',color_onlyliver, 'MarkerSize',8)
+
+% hold on
+% for j = 1 : size(param,1)
+%     plot(simTime,plotData_singleliver.Gmeasured(j,1:nTime),'Color',color_onlyliver)
+%     hold on
+% end
+
 hold on
 plot(simTime,plotData_singleliver.Gmeasured_opt,'Color', color_onlyliver,'Linewidth',2);
 hold off
@@ -464,4 +548,42 @@ xlabel('Time (h)','FontSize',20);
 ylabel('Glucose concentration (mM)','FontSize',20)
 set(gca,'TickDir','out','FontSize',20);
 box off
+
+% % Plot values of insulin resistance as individual lines
+% 
+% figure()
+% 
+% for j = 1 : size(param,1)
+%     plot(simTime,plotData_11mM.SI(j,1:nTime),'Color',color11mM)
+%     hold on
+% end
+% 
+% hold on
+% 
+% plot(simTime,plotData_11mM.SI_opt,'Color',color11mM)
+% 
+% 
+% % Plot values of insulin resistance as individual lines and
+% % as percentage of the initial value
+% 
+% figure()
+% 
+% SI_perc=[];
+% 
+% for j = 1 : size(param,1)
+%     SI_perc(j,1:nTime)=plotData_11mM.SI(j,1:nTime)./max(plotData_11mM.SI(j,1:nTime))*100;
+%     plot(simTime,SI_perc,'Color',color11mM)
+%     hold on
+% end
+% 
+% median_SI=median(SI_perc(:,end));
+% max_SI=max(SI_perc(:,end));
+% min_SI=min(SI_perc(:,end));
+% 
+% hold on
+% plot(simTime,plotData_11mM.SI_opt./max(plotData_11mM.SI_opt)*100,'Color',color11mM)
+% 
+% 
+% 
+
 

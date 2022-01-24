@@ -86,7 +86,7 @@ OPTIONS.lowbounds(8)=48;                  % Alpha
 OPTIONS.lowbounds(9)=-2;                  % delta_G_1_11mM
 OPTIONS.lowbounds(10)=-2;                 % delta_G_13_11mM
 OPTIONS.lowbounds(11)=0;                  % delta_I_1_11mM
-OPTIONS.lowbounds(12)=-2;                 % delta_G_1_liver
+%OPTIONS.lowbounds(12)=-2;                 % delta_G_1_liver
 
 OPTIONS.lowbounds=OPTIONS.lowbounds';
 
@@ -103,7 +103,7 @@ OPTIONS.highbounds(8)=500;                % Alpha
 OPTIONS.highbounds(9)=2;                  % delta_G_1_11mM
 OPTIONS.highbounds(10)=2;                 % delta_G_13_11mM
 OPTIONS.highbounds(11)=500;               % delta_I_1_11mM
-OPTIONS.highbounds(12)=2;                 % delta_G_1_liver
+%OPTIONS.highbounds(12)=2;                 % delta_G_1_liver
 
 OPTIONS.highbounds=OPTIONS.highbounds';
 
@@ -118,17 +118,23 @@ startGuess(8)=392;                        % Alpha
 startGuess(9)=0;                          % delta_G_1_11mM
 startGuess(10)=0;                         % delta_G_13_11mM
 startGuess(11)=0;                         % delta_I_1_11mM
-startGuess(12)=0;                         % delta_G_1_liver
+%startGuess(12)=0;                         % delta_G_1_liver
 
 
 X=startGuess;
  
+% OPTIONS.index_Optpar=boolean(sum([parIndex.i_EG0_hep...
+%     parIndex.i_S_i parIndex.i_Sigma parIndex.i_CL_i_hep...
+%     parIndex.i_Imax_SI parIndex.i_EC50_SI...
+%     parIndex.i_kv parIndex.i_Alpha...
+%     parIndex.i_delta_G_1_11mM parIndex.i_delta_G_13_11mM parIndex.i_delta_I_1_11mM...
+%     parIndex.i_delta_G_1_liver],2)); %Indexes of the parameters to optimize
+
 OPTIONS.index_Optpar=boolean(sum([parIndex.i_EG0_hep...
-    parIndex.i_S_i parIndex.i_Sigma parIndex.i_CL_i_hep...
-    parIndex.i_Imax_SI parIndex.i_EC50_SI...
-    parIndex.i_kv parIndex.i_Alpha...
-    parIndex.i_delta_G_1_11mM parIndex.i_delta_G_13_11mM parIndex.i_delta_I_1_11mM...
-    parIndex.i_delta_G_1_liver],2)); %Indexes of the parameters to optimize
+     parIndex.i_S_i parIndex.i_Sigma parIndex.i_CL_i_hep...
+     parIndex.i_Imax_SI parIndex.i_EC50_SI...
+     parIndex.i_kv parIndex.i_Alpha...
+     parIndex.i_delta_G_1_11mM parIndex.i_delta_G_13_11mM parIndex.i_delta_I_1_11mM],2)); %Indexes of the parameters to optimize
 
 
 %Set parameter values manually based on a-priori knowledge

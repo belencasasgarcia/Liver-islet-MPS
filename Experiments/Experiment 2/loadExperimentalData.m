@@ -31,6 +31,8 @@ load G_CC_liver_overtime_corrected
 load G_CC_islets_overtime_corrected
 load I_CC_liver_overtime_corrected
 
+load G_raw
+
 cd(fd)
 
 %Convert input data from table to matrix 
@@ -92,4 +94,7 @@ EXPDATA.SD{6} = EXPDATA_I_liver_overtime_corrected(2:end-2,4);
 EXPDATA.time{7} = EXPDATA_I_islets_overtime(2:end-2,1);
 EXPDATA.mean{7} = EXPDATA_I_islets_overtime(2:end-2,2);
 EXPDATA.SD{7} = EXPDATA_I_islets_overtime(2:end-2,4);
+
+% Raw data for glucose
+EXPDATA.G_raw=G_raw;
 
