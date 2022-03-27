@@ -1,4 +1,4 @@
-function [parHuman V_islets_scaled] = extrapolateToHuman(parMPS,V_hep,V_islets,parIndex,adjustSigma)
+function [parHuman V_islets_scaled] = extrapolateToHuman(parMPS,V_hep,V_islets,parIndex,adjustSigma,adjustCL)
 
 % Extrapolate parameter values in the MPS (parMPS) to human values
 % (parHuman)
@@ -28,9 +28,11 @@ parHuman(:,parIndex.i_S_i)=parMPS(:,parIndex.i_S_i)*2.22;               % Assumi
 parHuman(:,parIndex.i_EG0_hep)=parMPS(:,parIndex.i_EG0_hep)*2.22;
 
 if (adjustSigma)
-    parHuman(:,parIndex.i_Sigma)=parHuman(:,parIndex.i_Sigma)/6;
+    parHuman(:,parIndex.i_Sigma)=parHuman(:,parIndex.i_Sigma)/2;
 end
 
+if (adjustCL)
+    parHuman(:,parIndex.i_CL_i_hep)=parHuman(:,parIndex.i_CL_i_hep)*4.66;
 
 end
 

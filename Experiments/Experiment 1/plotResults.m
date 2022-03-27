@@ -7,10 +7,15 @@ close all
 format long
 format compact
 
-adjustSigma=boolean(0);  %Parameter to adjust insulin secretion capacity of beta cells
+adjustSigma=boolean(1);  %Parameter to adjust insulin secretion capacity of beta cells
                          % adjustSigma=0: Initial insulin secretion capacity in the
                          % MPS (Fig. S3)
                          % adjustSigma=1: Corrected insulin secretion capacity (Fig. 8)
+
+adjustCL=boolean(1);     %Parameter to adjust insulin clearance rate of liver spheroids
+                         % adjustSigma=0: Initial clearance rate in the
+                         % MPS (Fig. S3)
+                         % adjustSigma=1: Corrected insulin clearance rate (Fig. 8)
                 
 % Declare global variables
 
@@ -83,7 +88,6 @@ Q_scaled=(Total_V_m)/r_time;
 % Optimal parameter values
 file = ['parameterValuesExperiment1Gttd13.dat'];
 
-
 tmpHold = load(file);
 
 
@@ -96,7 +100,7 @@ else
     
     % Extrapolate parameters for human translation
     
-    [parHuman V_islets_Human]=extrapolateToHuman(parMPS,V_hep,V_islets,parIndex,adjustSigma);
+    [parHuman V_islets_Human]=extrapolateToHuman(parMPS,V_hep,V_islets,parIndex,adjustSigma,adjustCL);
    
     plotFunctionUncertainty(parHuman,modelName,parIndex,parMPS_opt,V_islets_Human)
 
