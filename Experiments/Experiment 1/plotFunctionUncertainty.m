@@ -99,10 +99,10 @@ hold on
 area1=[simTime,fliplr(simTime)];
 area2=[plotData.Gliver_11mM_max,fliplr(plotData.Gliver_11mM_min)];
 f=fill(area1,area2,color_onlyliver,'LineStyle','none');
-alpha(f,.2)
+alpha(f,.4)
 
 hold off
-title('Liver compartment, after translation to human','FontSize',20)
+%title('Liver compartment, after translation to human','FontSize',20)
 xlabel('Time (h)');
 ylabel('Glucose concentration (mM)','FontSize',20)
 xlim([0 simTime(end)])
@@ -121,7 +121,7 @@ f=fill(area1,area2,color_onlyislets,'LineStyle','none');
 alpha(f,.4)
 
 hold off
-title('Pancreas compartment, after translation to human','FontSize',20)
+%title('Pancreas compartment, after translation to human','FontSize',20)
 xlabel('Time (h)');
 ylabel('Glucose concentration (mM)','FontSize',20)
 xlim([0 simTime(end)])
@@ -144,7 +144,7 @@ errorbar(G_mean_Dallaman(:,1), G_mean_Dallaman(:,2), SEM_G,'Color', color_DallaM
 
 xlim([0 simTime(end)])
 ylim([0 12])
-title('Measured, after translation to human','FontSize',20)
+%title('Measured, after translation to human','FontSize',20)
 xlabel('Time (h)','FontSize',20);
 ylabel('Glucose concentration (mM)','FontSize',20)
 set(gca,'TickDir','out','FontSize',20);
@@ -162,7 +162,7 @@ alpha(f,.4)
 hold off
 xlabel('Time (h)');
 ylabel('Insulin concentration (nM)','FontSize',20)
-title('Liver compartment, after translation to human','FontSize',20)
+%title('Liver compartment, after translation to human','FontSize',20)
 xlim([0 simTime(end)])
 set(gca,'TickDir','out','FontSize',20);
 box off
@@ -179,7 +179,7 @@ alpha(f,.4)
 hold off
 xlabel('Time (h)');
 ylabel('Insulin concentration (nM)','FontSize',20)
-title('Pancreas compartment, after translation to human','FontSize',20)
+%title('Pancreas compartment, after translation to human','FontSize',20)
 xlim([0 simTime(end)])
 set(gca,'TickDir','out','FontSize',20);
 box off
@@ -205,7 +205,7 @@ hold off
 xlim([0 simTime(end)])
 xlabel('Time (h)','FontSize',20);
 ylabel('Insulin concentration (nM)','FontSize',20)
-title('Measured, after translation to human','FontSize',20)
+%title('Measured, after translation to human','FontSize',20)
 set(gca,'TickDir','out','FontSize',20);
 box off
 

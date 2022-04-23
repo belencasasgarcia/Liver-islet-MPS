@@ -32,7 +32,7 @@ if (adjustSigma)
 end
 
 if (adjustCL)
-    parHuman(:,parIndex.i_CL_i_hep)=parHuman(:,parIndex.i_CL_i_hep)*4.66;
+    parHuman(:,parIndex.i_CL_i_hep)=parHuman(:,parIndex.i_CL_i_hep)*4.23;
 
 end
 
