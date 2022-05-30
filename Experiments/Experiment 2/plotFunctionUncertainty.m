@@ -130,6 +130,64 @@ plotData_11mM.Secretion_opt = plotData_11mM_opt.Secretion;
 plotData_11mM.Uptake_ii_opt = plotData_11mM_opt.Uptake_ii;
 plotData_11mM.Uptake_id_opt = plotData_11mM_opt.Uptake_id;
 
+%% Chi-2 test for the predictions
+
+% Chi-2 test of the prediction for the individual compartments
+
+% Compute the relation between the standard deviation and the mean
+
+EXPDATA.SD{4}./EXPDATA.mean{4}*100
+EXPDATA.SD{5}./EXPDATA.mean{5}*100
+
+dataPoints=0;
+
+for i=4:7
+    dataPoints=dataPoints+length(EXPDATA.time{i});
+end
+
+CUTOFF = chi2inv(0.99,dataPoints);
+
+prediction_compartments{4}=plotData_11mM.Gliver;
+prediction_compartments{5}=plotData_11mM.Gislets;
+prediction_compartments{6}=plotData_11mM.Iliver;
+prediction_compartments{7}=plotData_11mM.Iislets;
+
+Error=[]
+Error_G=[]
+Error_I=[]
+
+for i=1:size(prediction_compartments{4},1)
+    for j=4:7
+        tmpError=0;
+        tmpError_G=0
+        tmpError_I=0
+
+        simData_values=prediction_compartments{j}(i,:)';
+        index_int=ismembertol(simTime,EXPDATA.time{j});
+
+        if (j==4 | j==5)
+
+            tmpError_G = tmpError_G + sum(((simData_values(index_int)- EXPDATA.mean{j}).^2)./(EXPDATA.SD{j}).^2);
+        end
+
+        if (j==6 | j==7)
+
+            tmpError_I = tmpError_I + sum(((simData_values(index_int)- EXPDATA.mean{j}*k_ins_nM).^2)./(EXPDATA.SD{j}*k_ins_nM).^2);
+        end
+
+        Error(i,j)=tmpError;
+        Error_G(i,j)=tmpError_G;
+        Error_I(i,j)=tmpError_I;
+
+    end
+end
+
+sum_Error=sum(Error,2)
+sum_Error_G=sum(Error_G,2)
+sum_Error_I=sum(Error_I,2)
+
+%% Plots
+
 % Disease progression variables
 
 figure1=figure();
@@ -548,6 +606,9 @@ xlabel('Time (h)','FontSize',20);
 ylabel('Glucose concentration (mM)','FontSize',20)
 set(gca,'TickDir','out','FontSize',20);
 box off
+
+
+
 
 % % Plot values of insulin resistance as individual lines
 % 

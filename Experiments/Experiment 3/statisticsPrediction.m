@@ -34,6 +34,8 @@ EXPDATA.time{2} = EXPDATA_I_2p8mM([3 4 5],1);    % Time (absolute) (hours)
 EXPDATA.mean{2} = EXPDATA_I_2p8mM([3 4 5],2);    % Time (absolute) (hours)
 EXPDATA.SD{2} = EXPDATA_I_2p8mM([3 4 5],4);      % Time (absolute) (hours)
 
+EXPDATA.SD{2}./EXPDATA.mean{2}*100
+
 % Calculate number of data points for statistical tests
 dataPoints=0;
 
@@ -56,7 +58,7 @@ for i=1:1:size(tmpError,2)
     index_int1=ismembertol(simTime,EXPDATA.time{1});    
     tmpError_G(i) = sum(((prediction_G_2p8mM(i,index_int1)'- EXPDATA.mean{1}).^2)./(EXPDATA.SD{1}).^2);
     index_int2=ismembertol(simTime,EXPDATA.time{2}); 
-    tmpError_I(i) = sum(((prediction_I_2p8mM(i,index_int2)'- EXPDATA.mean{2}).^2)./(EXPDATA.SD{2}).^2);
+    tmpError_I(i) = sum(((prediction_I_2p8mM(i,index_int2)'- EXPDATA.mean{2}*k_ins_nM).^2)./(EXPDATA.SD{2}*k_ins_nM).^2);
     tmpError(i)=tmpError_G(i)+tmpError_I(i);
 end
 
@@ -110,5 +112,7 @@ xlabel('Time (h)');
 ylabel('Insulin concentration (nM)','FontSize',20)
 xticks([0 48 96 144 192 240 288 336])
 
-[min_error, min_index]=min(tmpError);    %Index of the optimal prediction
+[min_error_G, min_index_G]=min(tmpError_G);    %Index of the optimal prediction
+[min_error_I, min_index_I]=min(tmpError_I);    %Index of the optimal prediction
 
+[min_error, min_index]=min(tmpError);    %Index of the optimal prediction
